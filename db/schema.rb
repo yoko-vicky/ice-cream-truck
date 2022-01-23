@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_25_010156) do
+ActiveRecord::Schema.define(version: 2022_01_25_045942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,20 +18,28 @@ ActiveRecord::Schema.define(version: 2022_01_25_010156) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.integer "max"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
     t.integer "stock"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.integer "price"
+  create_table "sales", force: :cascade do |t|
+    t.datetime "sold_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "category_id"
-    t.datetime "sold_date"
-    t.index ["category_id"], name: "index_items_on_category_id"
+    t.bigint "product_id"
+    t.index ["product_id"], name: "index_sales_on_product_id"
   end
 
-  add_foreign_key "items", "categories"
+  add_foreign_key "products", "categories"
+  add_foreign_key "sales", "products"
 end
