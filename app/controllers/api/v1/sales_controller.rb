@@ -11,22 +11,29 @@ class Api::V1::SalesController < ApplicationController
   end
 
   def create
-    @sale = Sale.new(sale_params)
-    if @sale.save
-      @product = Product.find(@sale.product_id)
-      render json: { message: "#{@product.name} was purchased", sale: @sale, product: @product }, status: 201
+    # check if the stock is ok
+    product = Product.find(sale_params[:product_id])
+    if product.stock > 0
+      @sale = Sale.new(sale_params)
+      if @sale.save
+        current_stock = product.stock # Reduce stock from the product
+        product.update_attribute(:stock, current_stock - 1)
+        render json: { message: "ENJOY!", sale: @sale, product: product }, status: 201
+      else
+        render json: { message: 'Something is wrong' }, status: 404
+      end
     else
-      render json: { message: 'Something is wrong' }, status: 404
+      render json: { message: 'SO SORRY! We have no stock.' }, status: 404
     end
   end
 
-      private
+  private
 
   def sale_params
     params.require(:sale).permit(:sold_date, :product_id)
   end
 
   def set_sale
-    @sale = Sale.where(product_id: params[:product_id])
+    @sale = Sale.where(id: params[:id])
   end
 end
