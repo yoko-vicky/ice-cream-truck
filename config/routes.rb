@@ -6,6 +6,7 @@ Rails.application.routes.draw do
           resources :sales
         end
       end
+      resources :overview, only: [:index]
     end
   end
 end
