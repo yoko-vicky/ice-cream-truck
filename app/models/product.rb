@@ -3,8 +3,8 @@ class Product < ApplicationRecord
   has_many :sales
 
   validates :name, presence: true, uniqueness: true, length: { in: 3..15 }
-  validates :price, presence: true, length: { in: 1..4 }
-  validates :stock, presence: true, length: { in: 1..4 }
+  validates :price, presence: true
+  validates :stock, presence: true
 
   scope :sort_by_latest, -> { order(created_at: :desc)}
 

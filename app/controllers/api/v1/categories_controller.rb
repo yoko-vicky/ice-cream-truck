@@ -1,5 +1,6 @@
 class Api::V1::CategoriesController < ApplicationController
   before_action :set_category, only: %i[show update destroy]
+
   def index
     categories = Category.all
     render json: categories, status: 200
@@ -42,6 +43,6 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def set_category
-    @category = Category.find(params[:id])
+    @category = Category.where(id: params[:id]).first
   end
 end
