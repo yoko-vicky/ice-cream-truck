@@ -13,12 +13,12 @@ class Api::V1::SalesController < ApplicationController
   def create
     # check if the stock is ok
     product = Product.find(sale_params[:product_id])
-    if product.stock > 0
+    if product.stock.positive?
       @sale = Sale.new(sale_params)
       if @sale.save
         current_stock = product.stock # Reduce stock from the product
         product.update_attribute(:stock, current_stock - 1)
-        render json: { message: "ENJOY!", sale: @sale, product: product }, status: 201
+        render json: { message: 'ENJOY!', sale: @sale, product: product }, status: 201
       else
         render json: { message: 'Something is wrong' }, status: 404
       end

@@ -6,9 +6,9 @@ class Product < ApplicationRecord
   validates :price, presence: true
   validates :stock, presence: true
 
-  scope :sort_by_latest, -> { order(created_at: :desc)}
+  scope :sort_by_latest, -> { order(created_at: :desc) }
 
   def total_sales
-    self.price * self.sales.count
+    price * sales.count
   end
 end

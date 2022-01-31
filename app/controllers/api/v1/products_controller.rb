@@ -32,7 +32,7 @@ class Api::V1::ProductsController < ApplicationController
       @product.destroy
       render json: { message: "#{@product.name} was successully deleted", deleted_product: @product }, status: 200
     else
-      render json: { error: 'product could not be deleted' }, status: 404
+      render json: { error: 'Product could not be deleted' }, status: 404
     end
   end
 

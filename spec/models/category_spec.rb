@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  describe "association" do
-     it { should have_many(:products).dependent(:destroy) }
-     it { should have_many(:sales).through(:products) }
+  describe 'association' do
+    it { should have_many(:products).dependent(:destroy) }
+    it { should have_many(:sales).through(:products) }
   end
 
-  describe "validates" do
+  describe 'validates' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:max) }
     it { should validate_uniqueness_of(:name) }
