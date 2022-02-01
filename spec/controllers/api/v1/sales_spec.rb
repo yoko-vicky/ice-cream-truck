@@ -8,15 +8,11 @@ RSpec.describe Api::V1::SalesController, type: :controller do
   let(:sale3) { create(:sale, product_id: product.id) }
 
   describe '#index' do
-    it 'renders all sales belonging to product' do
+    it 'renders all sales' do
       sale
       sale2
       sale3
-      params = {
-        product_id: product.id,
-        category_id: category.id
-      }
-      get :index, params: params, xhr: true, format: :js
+      get :index, xhr: true, format: :js
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body).count).to eq 3
     end
@@ -25,12 +21,7 @@ RSpec.describe Api::V1::SalesController, type: :controller do
   describe '#show' do
     it 'renders sale with sale id' do
       sale
-      params = {
-        id: sale.id,
-        product_id: product.id,
-        category_id: category.id
-      }
-      get :show, params: params, xhr: true, format: :js
+      get :show, params: { id: sale.id }, xhr: true, format: :js
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body)['id']).to eq sale.id
       expect(JSON.parse(response.body)['product_id']).to eq product.id
@@ -40,14 +31,10 @@ RSpec.describe Api::V1::SalesController, type: :controller do
   describe '#create' do
     it 'create new sale based on params' do
       product
-      category
-
       sold_date = '-4712-01-01T00:00:00.000Z'
       product_stock = product.stock
 
       params = {
-        product_id: product.id,
-        category_id: category.id,
         sale: {
           product_id: product.id,
           sold_date: sold_date
@@ -64,8 +51,6 @@ RSpec.describe Api::V1::SalesController, type: :controller do
 
     it 'returns error message if correct params not provided' do
       params = {
-        product_id: product.id,
-        category_id: category.id,
         sale: {
           product_id: product.id,
           sold_date: ''
@@ -78,14 +63,10 @@ RSpec.describe Api::V1::SalesController, type: :controller do
 
     it 'returns no more stock message if product have no stock ' do
       product
-      category
-
       sold_date = '-4712-01-01T00:00:00.000Z'
       product.update_attribute(:stock, 0)
 
       params = {
-        product_id: product.id,
-        category_id: category.id,
         sale: {
           product_id: product.id,
           sold_date: sold_date

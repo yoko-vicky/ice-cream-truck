@@ -7,12 +7,11 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
   let(:product3) { create(:product, category: category) }
 
   describe '#index' do
-    it 'renders all products of the category' do
-      category
+    it 'renders all products' do
       product
       product2
       product3
-      get :index, params: { category_id: category.id }, xhr: true, format: :js
+      get :index, xhr: true, format: :js
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body).count).to eq 3
     end
@@ -20,9 +19,8 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
 
   describe '#show' do
     it 'renders product with product id' do
-      category
       product
-      get :show, params: { id: product.id, category_id: category.id }, xhr: true, format: :js
+      get :show, params: { id: product.id }, xhr: true, format: :js
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body)['name']).to eq product.name
     end
@@ -37,8 +35,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
           price: 99,
           stock: 100,
           category_id: category.id
-        },
-        category_id: category.id
+        }
       }
       post :create, params: params, xhr: true, format: :js
       expect(response).to have_http_status(201)
@@ -52,8 +49,7 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
           price: 0,
           stock: 0,
           category_id: category.id
-        },
-        category_id: category.id
+        }
       }
       post :create, params: params, xhr: true, format: :js
       expect(response).to have_http_status(404)
@@ -67,7 +63,6 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       product
       params = {
         id: product.id,
-        category_id: category.id,
         product: {
           price: 9999
         }
@@ -82,7 +77,6 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
       product
       params = {
         id: product.id,
-        category_id: category.id,
         product: {
           name: ''
         }
@@ -95,17 +89,16 @@ RSpec.describe Api::V1::ProductsController, type: :controller do
 
   describe '#destroy' do
     it 'destroy category based on params' do
-      category
       product
       product2
       product3
-      delete :destroy, params: { id: product.id, category_id: category.id }, xhr: true, format: :js
+      delete :destroy, params: { id: product.id }, xhr: true, format: :js
       expect(response).to have_http_status(200)
       expect(JSON.parse(response.body).count).to eq 2
     end
 
     it 'returns error message if correct params not provided' do
-      delete :destroy, params: { id: 0, category_id: 0 }, xhr: true, format: :js
+      delete :destroy, params: { id: 0 }, xhr: true, format: :js
       expect(response).to have_http_status(404)
       expect(JSON.parse(response.body)['error']).to eq 'Product could not be deleted'
     end
