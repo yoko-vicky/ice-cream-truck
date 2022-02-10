@@ -1,4 +1,4 @@
-# The Ice Cream Truck built with Ruby on Rails
+# The Ice Cream Truck Rest API built with Ruby on Rails
 
 ## About the Project
 
