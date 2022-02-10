@@ -145,7 +145,7 @@ To get a local copy up and running follow these simple example steps.
 
 👤 **Yoko Saka**
 
-- GitHub: [@yocosaka](https://github.com/yocosaka), [@apricotweb707](https://github.com/apricot707)
+- GitHub: [@yocosaka](https://github.com/yocosaka)
 - LinkedIn: [Yoko Saka](https://www.linkedin.com/in/yokosaka)
 
 ## Contributing
