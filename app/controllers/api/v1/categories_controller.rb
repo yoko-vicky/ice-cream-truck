@@ -43,6 +43,6 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def set_category
-    @category = Category.where(id: params[:id]).first
+    @category = Category.find(params[:id])
   end
 end

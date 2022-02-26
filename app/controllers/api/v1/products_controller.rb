@@ -43,6 +43,6 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def set_product
-    @product = Product.where(id: params[:id]).first
+    @product = Product.find(params[:id])
   end
 end

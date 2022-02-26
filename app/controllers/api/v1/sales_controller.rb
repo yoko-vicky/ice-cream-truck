@@ -34,6 +34,6 @@ class Api::V1::SalesController < ApplicationController
   end
 
   def set_sale
-    @sale = Sale.where(id: params[:id]).first
+    @sale = Sale.find(params[:id])
   end
 end
