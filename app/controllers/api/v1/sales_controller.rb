@@ -3,11 +3,11 @@ class Api::V1::SalesController < ApplicationController
 
   def index
     sales = Sale.all
-    render json: sales
+    render json: sales, status: 200
   end
 
   def show
-    render json: @sale
+    render json: @sale, status: 200
   end
 
   def create
@@ -20,7 +20,7 @@ class Api::V1::SalesController < ApplicationController
         product.update_attribute(:stock, current_stock - 1)
         render json: { message: 'ENJOY!', sale: @sale, product: product }, status: 201
       else
-        render json: { message: 'Something is wrong' }, status: 404
+        render json: { message: 'Something is wrong' }, status: 400
       end
     else
       render json: { message: 'SO SORRY! We have no stock.' }, status: 404

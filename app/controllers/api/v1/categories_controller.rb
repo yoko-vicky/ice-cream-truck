@@ -7,7 +7,7 @@ class Api::V1::CategoriesController < ApplicationController
   end
 
   def show
-    render json: @category
+    render json: @category, status: 200
   end
 
   def create
@@ -15,7 +15,7 @@ class Api::V1::CategoriesController < ApplicationController
     if @category.save
       render json: { message: "#{@category.name} was successfully created", category: @category }, status: 201
     else
-      render json: { message: 'Something is wrong' }, status: 404
+      render json: { message: 'Something is wrong' }, status: 400
     end
   end
 
@@ -23,7 +23,7 @@ class Api::V1::CategoriesController < ApplicationController
     if @category.update(category_params)
       render json: { message: "#{@category.name} was successfully updated", category: @category }, status: 200
     else
-      render json: { message: 'Something is wrong' }, status: 422
+      render json: { message: 'Something is wrong' }, status: 404
     end
   end
 
