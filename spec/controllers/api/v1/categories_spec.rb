@@ -45,7 +45,7 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
         }
       }
       post :create, params: params, xhr: true, format: :js
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(400)
       expect(JSON.parse(response.body)['message']).to eq 'Something is wrong'
     end
   end
@@ -73,7 +73,7 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
         }
       }
       put :update, params: params, xhr: true, format: :js
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(404)
       expect(JSON.parse(response.body)['message']).to eq 'Something is wrong'
     end
   end
@@ -89,9 +89,9 @@ RSpec.describe Api::V1::CategoriesController, type: :controller do
     end
 
     it 'returns error message if correct params not provided' do
-      delete :destroy, params: { id: 0 }, xhr: true, format: :js
-      expect(response).to have_http_status(404)
-      expect(JSON.parse(response.body)['error']).to eq 'Category could not be deleted'
+      expect {
+          delete :destroy, params: { id: 'abc' }, xhr: true, format: :js
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end

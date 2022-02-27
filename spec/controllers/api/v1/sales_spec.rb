@@ -57,7 +57,7 @@ RSpec.describe Api::V1::SalesController, type: :controller do
         }
       }
       post :create, params: params, xhr: true, format: :js
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(400)
       expect(JSON.parse(response.body)['message']).to eq 'Something is wrong'
     end
 
